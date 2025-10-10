@@ -1,0 +1,23 @@
+{
+  "name": "Debian Bookworm with Miniforge",
+  "image": "debian:bookworm",
+  "features": {
+    "ghcr.io/devcontainers/features/common-utils:2": {
+      "upgradePackages": true
+    }
+  },
+  "customizations": {
+    "vscode": {
+      "extensions": [
+        "ms-vscode.cpptools",
+        "ms-python.python",
+        "esbenp.prettier-vscode"
+      ],
+      "settings": {
+        "terminal.integrated.shell.linux": "/bin/bash"
+      }
+    }
+  },
+  "postCreateCommand": "apt-get update && apt-get install -y git curl nano sudo cmake build-essential ninja-build clang-15 llvm-15-dev && curl -fsSL https://github.com/conda-forge/miniforge/releases/latest/download/Miniforge3-Linux-x86_64.sh -o /tmp/miniforge.sh && bash /tmp/miniforge.sh -b -p /opt/conda && rm /tmp/miniforge.sh && ln -s /opt/conda/etc/profile.d/conda.sh /etc/profile.d/conda.sh && echo '. /opt/conda/etc/profile.d/conda.sh' >> ~/.bashrc && echo 'conda activate base' >> ~/.bashrc",
+  "remoteUser": "root"
+}

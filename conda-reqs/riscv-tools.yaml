@@ -19,8 +19,8 @@ dependencies:
     
     - pip
     - networkx
-    - matplotlib-base
     - nlohmann_json
     - spdlog
+    - openjdk=17
     - pip:
         - pulp

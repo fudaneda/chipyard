@@ -24,10 +24,11 @@ RUN bash -lc "conda activate base && \
     git clone https://github.com/fudaneda/chipyard.git ${CYDIR} -b fgra"
 
 # 安装 OSS CAD Suite
-ENV OSSCAD_VERSION=2025-10-11 \
+ENV OSSCAD_RELEASE_VERSION=2025-10-11 \
+    OSSCAD_VERSION=20251011 \
     OSSCAD_DIR=/opt/oss-cad-suite
 
-RUN curl -L https://github.com/YosysHQ/oss-cad-suite-build/releases/download/${OSSCAD_VERSION}/oss-cad-suite-linux-x64-${OSSCAD_VERSION}.tgz \
+RUN curl -L https://github.com/YosysHQ/oss-cad-suite-build/releases/download/${OSSCAD_RELEASE_VERSION}/oss-cad-suite-linux-x64-${OSSCAD_VERSION}.tgz \
     -o /tmp/oss-cad-suite.tgz && \
     mkdir -p ${OSSCAD_DIR} && \
     tar -xzf /tmp/oss-cad-suite.tgz -C ${OSSCAD_DIR} --strip 1 && \
@@ -39,6 +40,6 @@ CMD ["bash"]
 
 #  docker build -t chipyard-fgra:base .
 #  docker run -it --name chipyard-fgra-init --cap-add=SYS_ADMIN --device=/dev/loop-control --device=/dev/loop0 --security-opt apparmor:unconfined chipyard-fgra:base bash
-#  ./build-setup.sh riscv-tools -f -s 6 -s 7
+#  ./build-setup.sh riscv-tools -f -s 6 -s 7 -ud
 #  exit
 #  docker commit chipyard-fgra-init chipyard-fgra:ready

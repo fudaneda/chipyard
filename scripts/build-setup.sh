@@ -213,7 +213,7 @@ source $CYDIR/scripts/fix-open-files.sh
 export LANG=C.UTF-8
 export LC_ALL=C.UTF-8
 export LANGUAGE=C.UTF-8
-export JAVA_TOOL_OPTIONS="-Dfile.encoding=UTF-8 -Dsun.jnu.encoding=UTF-8"
+export JAVA_TOOL_OPTIONS="${JAVA_TOOL_OPTIONS:+$JAVA_TOOL_OPTIONS }-Dfile.encoding=UTF-8 -Dsun.jnu.encoding=UTF-8"
 EOT
 
 echo "Setup complete!"

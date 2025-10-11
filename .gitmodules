@@ -133,3 +133,4 @@
 [submodule "generators/fgra"]
 	path = generators/fgra
 	url = https://github.com/fudaneda/fgra
+	branch = main

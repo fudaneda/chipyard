@@ -19,7 +19,7 @@ dependencies:
     
     - pip
     - networkx
-    - matplotlib
+    - matplotlib-base
     - nlohmann_json
     - spdlog
     - pip:

@@ -130,3 +130,6 @@
 [submodule "generators/bar-fetchers"]
 	path = generators/bar-fetchers
 	url = https://github.com/ucb-bar/bar-fetchers.git
+[submodule "generators/fgra"]
+	path = generators/fgra
+	url = https://cnb.cool/fudaneda/docker/fgra

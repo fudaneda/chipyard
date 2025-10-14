@@ -2,8 +2,5 @@
   "name": "Debian Bookworm with Miniforge",
   "image": "ghcr.io/fudaneda/chipyard:latest",
   "features": {
-    "ghcr.io/devcontainers/features/common-utils:2": {
-      "upgradePackages": true
-    }
   }
 }

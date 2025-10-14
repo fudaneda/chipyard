@@ -1,6 +1,0 @@
-{
-  "name": "Debian Bookworm with Miniforge",
-  "image": "ghcr.io/fudaneda/chipyard:latest",
-  "features": {
-  }
-}

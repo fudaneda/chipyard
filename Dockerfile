@@ -18,7 +18,7 @@ RUN curl -fsSL https://github.com/conda-forge/miniforge/releases/latest/download
     ln -s ${CONDA_DIR}/etc/profile.d/conda.sh /etc/profile.d/conda.sh && \
     echo '. /opt/conda/etc/profile.d/conda.sh' >> /etc/bash.bashrc && \
     echo 'conda activate base' >> /etc/bash.bashrc && \
-    bash -lc "conda activate base && conda install -y -n base -c conda-forge conda-lock=1.4" && \
+    bash -lc "conda activate base && conda install -y -n base -c conda-forge conda-lock=1.4 conda-libmamba-solver && conda config --set solver libmamba" && \
     /opt/conda/bin/conda clean -afy
 
 # Install OSS CAD Suite
@@ -42,7 +42,7 @@ RUN bash -lc "cd ${CYDIR} && \
       -s 2 -s 3 -s 4 -s 5 -s 6 -s 7 -s 8 -s 9 -s 10"
 
 RUN bash -lc "cd ${CYDIR} && \
-    source ${CYDIR}/.conda-env/etc/profile.d/conda.sh && \
+    source /opt/conda/etc/profile.d/conda.sh && \
     conda activate ${CYDIR}/.conda-env && \
     conda install -y -c conda-forge \
       networkx nlohmann_json spdlog openjdk=17 && pip install pulp"
@@ -103,7 +103,26 @@ RUN bash -lc "cd ${CYDIR} && \
     ./build-setup.sh riscv-tools -f \
       -s 1 -s 2 -s 3 -s 4 -s 5 -s 6 -s 7 -s 8 -s 9"
 
-WORKDIR ${CYDIR}
+RUN bash -lc "cd ${CYDIR} && \
+    source ${CYDIR}/env.sh && \
+    cd ${CYDIR}/generators/fgra/app-compiler && ./build.sh && \
+    cd ${CYDIR}/generators/fgra/benchmarks/add && ../compile.sh add kernel && cd ../ && ./dot2json.sh"
+
+RUN bash -lc "cd ${CYDIR} && \
+    source ${CYDIR}/env.sh && \
+    cd ${CYDIR}/generators/fgra/fgra-mapper && ./build.sh && ./run.sh"
+
+RUN bash -lc "cd ${CYDIR} && \
+    source ${CYDIR}/env.sh && \
+    cd ${CYDIR}/generators/fgra && ./scripts/build-verilog.sh"
+
+RUN bash -lc "cd ${CYDIR} && \
+    source ${CYDIR}/env.sh && \
+    cd ${CYDIR}/generators/fgra/software/tests && ./build.sh && \
+    cd ${CYDIR}/generators/fgra && ./scripts/build-verilator.sh && ./scripts/run-verilator.sh add"
+
+RUN curl -fsSL https://code-server.dev/install.sh | sh
+WORKDIR /workspace
 CMD ["bash"]      
 # How to build a docker image
 #   docker build -t chipyard-fgra:ready .

@@ -8,9 +8,11 @@ ENV DEBIAN_FRONTEND=noninteractive \
 # Base Dependencies
 RUN apt-get update && apt-get upgrade -y && \
     apt-get install -y --no-install-recommends \
-        git curl sudo nano build-essential cmake ninja-build \
-        clang-15 llvm-15-dev kmod util-linux mount \
-        ca-certificates bash-completion xz-utils unzip bzip2 git-lfs && \
+    git curl sudo nano build-essential cmake ninja-build \
+    clang-15 llvm-15-dev kmod util-linux mount \
+    ca-certificates bash-completion xz-utils unzip bzip2 git-lfs \
+    libfmt-dev nlohmann-json3-dev libspdlog-dev openjdk-17-jdk openssh-server \
+    python3-dev python3-pulp python3-networkx graphviz && \
     rm -rf /var/lib/apt/lists/*
 # Miniforge
 RUN curl -fsSL https://github.com/conda-forge/miniforge/releases/latest/download/Miniforge3-Linux-x86_64.sh -o /tmp/miniforge.sh && \
@@ -121,7 +123,15 @@ RUN bash -lc "cd ${CYDIR} && \
     cd ${CYDIR}/generators/fgra/software/tests && ./build.sh && \
     cd ${CYDIR}/generators/fgra && ./scripts/build-verilator.sh && ./scripts/run-verilator.sh add"
 
-RUN curl -fsSL https://code-server.dev/install.sh | sh
+RUN curl -fsSL https://code-server.dev/install.sh | sh \
+    && code-server --install-extension cnbcool.cnb-welcome \
+    && code-server --install-extension redhat.vscode-yaml \
+    && code-server --install-extension dbaeumer.vscode-eslint \
+    && code-server --install-extension waderyan.gitblame \
+    && code-server --install-extension mhutchie.git-graph \
+    && code-server --install-extension donjayamanne.githistory \
+    && code-server --install-extension tencent-cloud.coding-copilot \
+    && echo done
 WORKDIR /workspace
 CMD ["bash"]      
 # How to build a docker image
